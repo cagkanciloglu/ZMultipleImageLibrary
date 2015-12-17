@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -346,6 +347,7 @@ public class ZMultipleImageSelectActivity  extends AppCompatActivity {
                 deselectAll();
             }
             actionMode = null;
+            onBackPressed();
         }
     };
 
@@ -414,25 +416,28 @@ public class ZMultipleImageSelectActivity  extends AppCompatActivity {
 
     private void prepareActionModeForSelectedPhotos()
     {
-        if (selectedPhotos == null)
-            return;
-
         if (actionMode == null) {
             actionMode = ZMultipleImageSelectActivity.this.startActionMode(callback);
         }
-        countSelected = 0;
-        for (int position = 0; position < images.size(); position++) {
-            if (images.get(position).isSelected)
-            {
-                countSelected++;
-            }
-        }
-        adapter.notifyDataSetChanged();
-        actionMode.setTitle(countSelected + " " + getString(R.string.selected));
-        actionMode.invalidate();
+        actionMode.setTitle(album);
+        actionMode.setSubtitle(R.string.image_view);
 
-        if (countSelected == 0) {
-            actionMode.finish();
+        if (selectedPhotos != null)
+        {
+            countSelected = 0;
+            for (int position = 0; position < images.size(); position++) {
+                if (images.get(position).isSelected)
+                {
+                    countSelected++;
+                }
+            }
+            adapter.notifyDataSetChanged();
+            actionMode.setTitle(countSelected + " " + getString(R.string.selected));
+            actionMode.invalidate();
+
+            if (countSelected == 0) {
+                actionMode.finish();
+            }
         }
     }
 
