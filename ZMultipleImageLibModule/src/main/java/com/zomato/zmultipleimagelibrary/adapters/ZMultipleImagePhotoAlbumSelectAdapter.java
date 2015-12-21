@@ -30,6 +30,7 @@ public class ZMultipleImagePhotoAlbumSelectAdapter extends ZMultipleImageGeneric
             viewHolder = new ViewHolder();
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image_view_album_image);
             viewHolder.textView = (TextView) convertView.findViewById(R.id.text_view_album_name);
+            viewHolder.textViewCount = (TextView) convertView.findViewById(R.id.text_view_album_photo_count);
 
             convertView.setTag(viewHolder);
 
@@ -41,6 +42,7 @@ public class ZMultipleImagePhotoAlbumSelectAdapter extends ZMultipleImageGeneric
         viewHolder.imageView.getLayoutParams().height = size;
 
         viewHolder.textView.setText(arrayList.get(position).name);
+        viewHolder.textViewCount.setText(String.valueOf(arrayList.get(position).photoCount));
         Glide.with(context)
                 .load(arrayList.get(position).cover)
                 .placeholder(R.drawable.image_placeholder).centerCrop().into(viewHolder.imageView);
@@ -51,5 +53,6 @@ public class ZMultipleImagePhotoAlbumSelectAdapter extends ZMultipleImageGeneric
     private static class ViewHolder {
         public ImageView imageView;
         public TextView textView;
+        public TextView textViewCount;
     }
 }

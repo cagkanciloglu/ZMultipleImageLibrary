@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,6 +34,8 @@ import com.zomato.zmultipleimagelibrary.models.PhotoAlbum;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -306,6 +309,7 @@ public class ZMultipleImagePhotoAlbumSelectActivity extends AppCompatActivity {
 
             ArrayList<PhotoAlbum> temp = new ArrayList<PhotoAlbum>(cursor.getCount());
             HashSet<String> albumSet = new HashSet<String>();
+            int allPhotoCount = 0;
             File file;
             PhotoAlbum allPhotos = null;
             if (cursor.moveToLast()) {
@@ -316,6 +320,7 @@ public class ZMultipleImagePhotoAlbumSelectActivity extends AppCompatActivity {
 
                     String album = cursor.getString(cursor.getColumnIndex(projection[0]));
                     String image = cursor.getString(cursor.getColumnIndex(projection[1]));
+
 
                     /*
                     It may happen that some image file paths are still present in cache,
@@ -332,8 +337,12 @@ public class ZMultipleImagePhotoAlbumSelectActivity extends AppCompatActivity {
                             temp.add(allPhotos);
                             albumSet.add(getString(R.string.all_photos));
                         }
+                        Cursor cursor1 = getApplicationContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null,
+                                MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " =?", new String[]{album}, null);
 
-                        temp.add(new PhotoAlbum(album, image));
+                        allPhotoCount += cursor1.getCount();
+
+                        temp.add(new PhotoAlbum(album, image, cursor1.getCount()));
                         albumSet.add(album);
                     }
                 } while (cursor.moveToPrevious());
@@ -345,6 +354,15 @@ public class ZMultipleImagePhotoAlbumSelectActivity extends AppCompatActivity {
             }
             albums.clear();
             albums.addAll(temp);
+
+            PhotoAlbum.PhotoAlbumComparator comparator = new PhotoAlbum.PhotoAlbumComparator();
+            Collections.sort(albums, comparator);
+            int i = albums.indexOf(allPhotos);
+            Collections.swap(albums, i, 0);
+            for (PhotoAlbum album:albums) {
+                if (album.name.equalsIgnoreCase(getString(R.string.all_photos)))
+                    album.photoCount = allPhotoCount;
+            }
 
             message = handler.obtainMessage();
             message.what = ZMultipleImageConstants.FETCH_COMPLETED;

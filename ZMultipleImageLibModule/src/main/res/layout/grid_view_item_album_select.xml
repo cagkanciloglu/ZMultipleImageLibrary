@@ -13,15 +13,39 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
 
-    <TextView
-        android:id="@+id/text_view_album_name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/background"
-        android:textColor="@color/primaryText"
-        android:textSize="20dp"
-        android:lines="1"
-        android:gravity="center"/>
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/text_view_album_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:layout_gravity="bottom"
+            android:background="@color/background"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:gravity="center_vertical|left"
+            android:layout_toLeftOf="@+id/text_view_album_photo_count"
+            android:layout_toStartOf="@+id/text_view_album_photo_count"/>
+
+        <TextView
+            android:id="@+id/text_view_album_photo_count"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:layout_gravity="bottom"
+            android:background="@color/background"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:lines="1"
+            android:gravity="center_vertical|right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
 </FrameLayout>
