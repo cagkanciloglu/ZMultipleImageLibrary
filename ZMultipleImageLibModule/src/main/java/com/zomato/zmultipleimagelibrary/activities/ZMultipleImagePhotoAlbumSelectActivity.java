@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,13 +28,11 @@ import android.widget.Toast;
 import com.zomato.zmultipleimagelibrary.R;
 import com.zomato.zmultipleimagelibrary.ZMultipleImageConstants;
 import com.zomato.zmultipleimagelibrary.adapters.ZMultipleImagePhotoAlbumSelectAdapter;
-import com.zomato.zmultipleimagelibrary.models.Photo;
 import com.zomato.zmultipleimagelibrary.models.PhotoAlbum;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -320,7 +317,6 @@ public class ZMultipleImagePhotoAlbumSelectActivity extends AppCompatActivity {
 
                     String album = cursor.getString(cursor.getColumnIndex(projection[0]));
                     String image = cursor.getString(cursor.getColumnIndex(projection[1]));
-
 
                     /*
                     It may happen that some image file paths are still present in cache,
